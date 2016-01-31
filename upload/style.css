@@ -1,0 +1,17 @@
+.line {
+    height: 15px;
+    width: 1px;
+    position: absolute;
+    background: black;
+}
+
+.movie {
+    background: red;
+    width: 1px;
+    height: 30px;
+}
+
+.movies-container {
+    display: flex;
+    margin-top: 140px;
+}
