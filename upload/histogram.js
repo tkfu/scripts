@@ -123,6 +123,10 @@ function drawHistogram(){
             .attr("y2", yScale(axisTickValues[v]));
     }
 
+    var lineBreakdown = svg.append("g")
+            .attr("class", "line-breakdown")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", 20)
 
     var buckets = svg.selectAll(".blocks")
         .data(bucketData)
@@ -130,7 +134,6 @@ function drawHistogram(){
         .attr("transform", function(d, i) { 
           return "translate(" + d.bucket  + "," + y(d.y) + ")"; 
         })
-
     buckets.append("rect")
       .attr("class", "block")
       .style("fill", (d) => { 
@@ -150,6 +153,36 @@ function drawHistogram(){
       .attr("x", 0)
       .attr("width", 30)
       .attr("height", 2)
+      .on("mouseover", (d, i) => { 
+
+        var values = []
+        var thisMovieLines = movie_lines[d.movieID];
+
+        thisMovieLines.female_lines.forEach((x) => { values.push({gender: "f", index: x}) });
+        thisMovieLines.male_lines.forEach((x) => { values.push({gender: "m", index: x}) });
+
+        lineBreakdown.append("text").text(d.title);
+        lineBreakdown.selectAll(".line-block")
+          .data(values)
+        .enter().append("rect")
+          //.attr("class", "line-block")
+          .attr("height", 10)
+          .attr("width", 2)
+          .attr("x", (l) => { return l.index * 2})
+          .attr("y", (l) => {
+            if(l.gender === "f") return 10;
+            return 20
+          })
+          .style("fill", (l) => {
+            if(l.gender === "f") return "#FF1782";
+            return "#146089"
+          })
+
+      })
+      .on("mouseout", (d, i) => {
+        lineBreakdown.selectAll("*").remove();
+      })
+
 
     var xAxis = d3.svg.axis()
         .scale(x)
