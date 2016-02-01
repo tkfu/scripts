@@ -15,3 +15,14 @@
     display: flex;
     margin-top: 140px;
 }
+
+g.tick-line {
+    stroke-width: 1px;
+    stroke: lightgray;
+    stroke-dasharray: 5px;
+}
+
+g.axis path, g.axis line {
+    fill:none; 
+    stroke:#6C7A89;
+}
