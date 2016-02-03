@@ -3,8 +3,6 @@
 d3.csv("lines.csv", function(error, lines) {
   d3.csv("movies.csv", function(error, movies) {
 
-  console.log(lines);
-
   var linesData = [];
 
   for (line in lines){
@@ -17,8 +15,6 @@ d3.csv("lines.csv", function(error, lines) {
   // var lines = d3.select(".lines-container");
 
   var linesChart = d3.select(".lines-container")
-    .style("display","flex")
-    .style("flex-wrap","wrap")
     .selectAll("div")
     .data(linesData)
     .enter()

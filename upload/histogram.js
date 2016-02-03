@@ -1,6 +1,7 @@
 function generateMovieData (callback) {
 
   var data = [];
+
   for(var m in moviesObj){
     var movie = moviesObj[m];
 
@@ -34,7 +35,7 @@ function generateMovieData (callback) {
     }
 
     movie.total_words = movie.female_words +  movie.male_words;
-   
+
     data.push(movie);
   }
 
@@ -42,9 +43,9 @@ function generateMovieData (callback) {
 }
 
 function drawHistogram(){
+
   generateMovieData((movieData) => {
-    // Generate a Bates distribution of 10 random variables.
-    
+
     var values = [];
 
     for(var d in movieData){
@@ -55,7 +56,7 @@ function drawHistogram(){
 
     // A formatter for counts.
     var formatCount = d3.format(".0%");
-
+  //
     var margin = {top: 10, right: 30, bottom: 30, left: 50},
         width = 700 - margin.left - margin.right,
         height = 450 - margin.top - margin.bottom;
@@ -63,19 +64,40 @@ function drawHistogram(){
     var x = d3.scale.linear()
         .domain([0, 1])
         .range([0, width]);
+        console.log(movieData);
 
-    // Generate a histogram using twenty uniformly-spaced bins.
-    var data = d3.layout.histogram()
-        .bins(x.ticks(10))
-        (values);
+    // var interpolateScale = d3.interpolate("#0091E6", "#ff1b84");
+    // var rangeColors = d3.range(.2,1.2,0.2).map(function(d){
+    //   console.log(d);
+    //   return interpolateScale(d);
+    // });
+    // console.log(rangeColors);
+    // var colorScale = d3.scale.threshold().domain([0.2,0.4,0.6,0.8,1.1]).range(rangeColors);
+    // console.log(colorScale(1));
 
+    var interpolateOne = d3.interpolate("#0091E6","#ddd");
+    var interpolateTwo = d3.interpolate("#ddd","#ff1b84");
+
+    var colorScale = d3.scale.threshold().domain([0.2,0.4,0.6,0.8,1.1]).range(["#0091E6",interpolateOne(0.5),"#ddd",interpolateTwo(0.5), "#ff1b84"]);
+    console.log(colorScale(1));
+    var bucketScale = d3.scale.threshold().domain([0.2,0.4,0.6,0.8,1.1]).range(["bucket-a","bucket-b","bucket-c","bucket-d","bucket-e"]);
+
+  //   // Generate a histogram using twenty uniformly-spaced bins.
+  //   var data = d3.layout.histogram()
+  //       .bins(x.ticks(5))
+  //       (values);
+  //   //
     var bucketData = [];
-
     var bucketSize = 20;
     var bucketIndexes = {};
+  //   console.log(movieData);
+  //
     for(var d in movieData){
+
       var point = movieData[d];
+
       if(point.total_words > 0){
+
         point.female_percent = point.female_words / point.total_words;
         point.x = point.female_percent;
 
@@ -85,125 +107,279 @@ function drawHistogram(){
           bucketIndexes[point.bucket] = 0;
         }
         bucketIndexes[point.bucket]++;
-
+        point.bucketNumber = bucketScale(point.female_percent);
         point.y = bucketIndexes[point.bucket];
-
         bucketData.push(point)
       }
     }
 
-    var y = d3.scale.linear()
-        .domain([0, d3.max(data, function(d) { return d.y; })])
-        .range([height, 0]);
+    var bucketDataNest = d3.nest().key(function(d) {
+      return d.bucketNumber
+    })
+    .sortKeys(d3.ascending)
+    .entries(bucketData);
 
+    var histogramChartBuckets = d3.select(".histogram-two").append("div").attr("class","histogram-two-data")
+      .selectAll("div")
+      .data(bucketDataNest)
+      .enter()
+      .append("div")
+      .attr("class",function(d){
+        return "histogram-two-bucket " + d.values[0].bucketNumber;
+      });
 
-    var svg = d3.select("#histogram")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-    var axisTickValues = [0.25, 0.5, 0.75];
-    
-    var yScale = d3.scale.linear()
-            .domain([0, 1])
-            .range([0, height - (margin.top)]);
-
-    var tickLine = svg.append("g")
-            .attr("class", "tick-line")
-            // .attr("transform", 
-            //       "translate(" + margin + ",0)");
-    
-    for(var v in axisTickValues){
-       tickLine.append("line")
-            .attr("x1", 0 - margin.left)
-            .attr("x2", width + margin.right)
-            .attr("y1", yScale(axisTickValues[v]))
-            .attr("y2", yScale(axisTickValues[v]));
-    }
-
-    var lineBreakdown = svg.append("g")
-            .attr("class", "line-breakdown")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", 20)
-
-    var buckets = svg.selectAll(".blocks")
-        .data(bucketData)
-      .enter().append("g")
-        .attr("transform", function(d, i) { 
-          return "translate(" + d.bucket  + "," + y(d.y) + ")"; 
-        })
-    buckets.append("rect")
-      .attr("class", "block")
-      .style("fill", (d) => { 
-
-        var color = "black";
-        if(d.x < 0.5){
-          color = "#146089";
-        } else {
-          color = "#FF1782";
-        }
-        return color;
-
-        // var colorScale = chroma.scale(['#146089', '#FF1782']);
-        // return colorScale(d.x).css()
-
+    var histogramChartData = histogramChartBuckets
+      .selectAll("div")
+      .data(function(d){
+        return d.values;
       })
-      .attr("x", 0)
-      .attr("width", 30)
-      .attr("height", 2)
-      .on("mouseover", (d, i) => { 
-
-        var values = []
-        var thisMovieLines = movie_lines[d.movieID];
-
-        thisMovieLines.female_lines.forEach((x) => { values.push({gender: "f", index: x}) });
-        thisMovieLines.male_lines.forEach((x) => { values.push({gender: "m", index: x}) });
-
-        lineBreakdown.append("text").text(d.title);
-        lineBreakdown.selectAll(".line-block")
-          .data(values)
-        .enter().append("rect")
-          //.attr("class", "line-block")
-          .attr("height", 10)
-          .attr("width", 2)
-          .attr("x", (l) => { return l.index * 2})
-          .attr("y", (l) => {
-            if(l.gender === "f") return 10;
-            return 20
-          })
-          .style("fill", (l) => {
-            if(l.gender === "f") return "#FF1782";
-            return "#146089"
-          })
-
+      .enter()
+      .append("div")
+      .attr("class",function(d){
+        return "histogram-two-line " + bucketScale(d.female_percent);
       })
-      .on("mouseout", (d, i) => {
-        lineBreakdown.selectAll("*").remove();
+      .style("background-color",function(d){
+        return colorScale(d.female_percent);
+      })
+      ;
+
+    d3.select(".bucket-a")
+      .append("p")
+      .attr("class","axis-label tk-futura-pt")
+      .html("90%+<br>Male")
+      ;
+
+    d3.select(".bucket-a")
+      .append("p")
+      .attr("class","axis-count tk-futura-pt")
+      .style("color",function(d){
+        return d3.rgb(colorScale.range()[0]).darker(1.5);
+      })
+      .html(d3.selectAll(".bucket-a").size() - 1 +" films")
+      ;
+
+    d3.select(".bucket-c")
+      .append("p")
+      .attr("class","axis-label tk-futura-pt")
+      .html("Gender Parity<br>(50/50 Male:Female)")
+      ;
+
+    d3.select(".bucket-c")
+      .append("p")
+      .attr("class","axis-count tk-futura-pt")
+      .style("color",function(d){
+        return d3.rgb(colorScale.range()[2]).darker(1.5);
+      })
+      .html(d3.selectAll(".bucket-c").size() - 1 + " films")
+      ;
+
+    d3.select(".bucket-e")
+      .append("p")
+      .attr("class","axis-label tk-futura-pt")
+      .html("90%+<br>Female")
+      ;
+
+    d3.select(".bucket-e")
+      .append("p")
+      .attr("class","axis-count tk-futura-pt")
+      .style("color",function(d){
+        return d3.rgb(colorScale.range()[4]).darker(1.5);
+      })
+      .html(d3.selectAll(".bucket-e").size() - 1)
+      ;
+
+    var marker = d3.select(".histogram-two")
+      .append("div")
+      .attr("class","histogram-two-marker")
+      ;
+
+    var previewName = d3.select(".histogram-two")
+      .append("div")
+      .attr("class","histogram-two-name tk-futura-pt")
+      .text("hello")
+      ;
+
+    histogramChartData
+      .on("mouseover",function(d){
+        previewName.text(d.title).style("color",colorScale(d.female_percent));
       })
 
+    d3.select(".histogram-two")
+      .on("mousemove",function(d){
+        var coordinates = d3.mouse(this);
+        marker.style("left",coordinates[0]-3+"px");
+        previewName.style("left",coordinates[0]-3+"px");
+      })
+      .on("mouseover",function(d){
+        marker.style("display","block");
+        d3.selectAll(".axis-count").style("visibility","hidden")
+        previewName.style("display","block");
+      })
+      .on("mouseout",function(d){
+        marker.style("display",null);
+        d3.selectAll(".axis-count").style("visibility","visible")
+        previewName.style("display",null);
+      })
+      ;
 
-    var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("bottom")
-        .tickValues([0, 0.25, 0.5, 0.75, 1])
-        .tickFormat((tick) => {
-          if(tick === 0.5){ return "Gender Parity";
-          } else if(tick === 0){ return "All Men";
-          } else if(tick === 1){ return "All Women";
-          } else if(tick === 0.25){ return "75% Men";
-          } else { return "75% Women"; }
-        });
 
-    svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+
+    //   .sort(function(a, b){
+    //     var o1 = a.female_percent;
+    //     var o2 = b.female_percent;
+    //
+    //     if (o1 < o2) return -1;
+    //     if (o1 > o2) return 1;
+    //     return 0;
+    //     // return d3.ascending(a.pass, b.pass);
+    //   })
+    //
+    //   .style("background-color",function(d){
+    //     return colorScale(d.female_percent);
+    //   })
+    //   .on("mouseover",function(d){
+    //     console.log(d);
+    //   })
+    //   ;
+
+    // var bucketLengths = [];
+    // var bucketLengthsCumulative = [];
+    //
+    // for (bucket in bucketScale.range()){
+    //   var length = d3.selectAll("."+bucketScale.range()[bucket]).size();
+    //   bucketLengths.push(length);
+    //   if (bucket == 0){
+    //     bucketLengthsCumulative.push(bucketLengths[bucket]);
+    //   }
+    //   else{
+    //     var length = bucketLengths[bucket]+bucketLengthsCumulative[bucket-1];
+    //     bucketLengthsCumulative.push(length);
+    //   }
+    // }
+    // console.log(bucketLengths,bucketLengthsCumulative);
+    //
+    // histogramChart
+    //   .style("margin-right",function(d,i){
+    //     if(bucketLengthsCumulative.indexOf(i+1) > -1){
+    //       return "2px";
+    //     }
+    //     return null;
+    //   })
+  //   console.log(bucketData);
+  // //
+  //   var y = d3.scale.linear()
+  //       .domain([0, d3.max(data, function(d) { return d.y; })])
+  //       .range([height, 0]);
+  // //
+  // //
+  //   var svg = d3.select("#histogram")
+  //       .attr("width", width + margin.left + margin.right)
+  //       .attr("height", height + margin.top + margin.bottom)
+  //     .append("g")
+  //       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  // //
+  // //
+  //   var axisTickValues = [0.25, 0.5, 0.75];
+  // //
+  //   var yScale = d3.scale.linear()
+  //           .domain([0, 1])
+  //           .range([0, height - (margin.top)]);
+  // //
+  //   var tickLine = svg.append("g")
+  //           .attr("class", "tick-line")
+  //           // .attr("transform",
+  //           //       "translate(" + margin + ",0)");
+  // //
+  //   for(var v in axisTickValues){
+  //      tickLine.append("line")
+  //           .attr("x1", 0 - margin.left)
+  //           .attr("x2", width + margin.right)
+  //           .attr("y1", yScale(axisTickValues[v]))
+  //           .attr("y2", yScale(axisTickValues[v]));
+  //   }
+  // //
+  //   var lineBreakdown = svg.append("g")
+  //           .attr("class", "line-breakdown")
+  //           .attr("width", width + margin.left + margin.right)
+  //           .attr("height", 20)
+  // //
+  //   var buckets = svg.selectAll(".blocks")
+  //     .data(bucketData)
+  //     .enter().append("g")
+  //     .attr("transform", function(d, i) {
+  //       return "translate(" + d.bucket  + "," + y(d.y) + ")";
+  //     });
+  //
+  //   buckets.append("rect")
+  //     .attr("class", "block")
+  //     .style("fill", (d) => {
+  //
+  //       var color = "black";
+  //       if(d.x < 0.5){
+  //         color = "#146089";
+  //       } else {
+  //         color = "#FF1782";
+  //       }
+  //       return color;
+  //
+  //       // var colorScale = chroma.scale(['#146089', '#FF1782']);
+  //       // return colorScale(d.x).css()
+  //
+  //     })
+  //     .attr("x", 0)
+  //     .attr("width", 30)
+  //     .attr("height", 2)
+  //     .on("mouseover", (d, i) => {
+  //
+  //       var values = []
+  //       var thisMovieLines = movie_lines[d.movieID];
+
+        // thisMovieLines.female_lines.forEach((x) => { values.push({gender: "f", index: x}) });
+        // thisMovieLines.male_lines.forEach((x) => { values.push({gender: "m", index: x}) });
+
+        // lineBreakdown.append("text").text(d.title);
+        // lineBreakdown.selectAll(".line-block")
+        //   .data(values)
+        // .enter().append("rect")
+        //   //.attr("class", "line-block")
+        //   .attr("height", 10)
+        //   .attr("width", 2)
+        //   .attr("x", (l) => { return l.index * 2})
+        //   .attr("y", (l) => {
+        //     if(l.gender === "f") return 10;
+        //     return 20
+        //   })
+        //   .style("fill", (l) => {
+        //     if(l.gender === "f") return "#FF1782";
+        //     return "#146089"
+        //   })
+
+      // })
+      // .on("mouseout", (d, i) => {
+      //   lineBreakdown.selectAll("*").remove();
+      // })
+  //
+  //
+    // var xAxis = d3.svg.axis()
+    //     .scale(x)
+    //     .orient("bottom")
+    //     .tickValues([0, 0.25, 0.5, 0.75, 1])
+    //     .tickFormat((tick) => {
+    //       if(tick === 0.5){ return "Gender Parity";
+    //       } else if(tick === 0){ return "All Men";
+    //       } else if(tick === 1){ return "All Women";
+    //       } else if(tick === 0.25){ return "75% Men";
+    //       } else { return "75% Women"; }
+    //     });
+    //
+    // svg.append("g")
+    //     .attr("class", "x axis tk-futura-pt")
+    //     .attr("transform", "translate(0," + height + ")")
+    //     .call(xAxis);
 
   })
 
-} 
+}
 
 //$(document).ready(() => {
   drawHistogram();
