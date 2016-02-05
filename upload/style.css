@@ -14,6 +14,9 @@
 
 .movies-container {
     display: flex;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
     margin-top: 140px;
     display: none;
 }
@@ -108,18 +111,15 @@ div .bucket-one:last-of-type{
 
 
 .histogram-two-name {
-    position: absolute;
-    width: 91px;
-    height: 30px;
-    top: 35px;
-    left: 0px;
+    width: 100%;
     pointer-events: none;
     color: black;
     text-align: left;
-    display: none;
+    /* display: none; */
     font-size: 10px;
     text-transform: uppercase;
     font-weight: 600;
+    margin-bottom: 5px;
 }
 
 .histogram-two-title {
@@ -143,4 +143,57 @@ div .bucket-one:last-of-type{
     width: 100%;
     justify-content: center;
     margin-top: 80px;
+}
+
+.histogram-two-data-preview-bar {
+    height: 10px;
+}
+
+.histogram-two-data-preview-row {
+    display: flex;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    left: 0px;
+    top: 60px;
+    height: 15px;
+    width: auto;
+}
+
+
+.histogram-two-data-preview-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 500;
+    line-height: 11px;
+    margin: 0px;
+    width: 75px;
+    text-align: right;
+    margin-right: 4px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.histogram-two-data-preview {margin-left: -78px;}
+
+.histogram-two-data-preview-percent {
+    font-size: 10px;
+    color: black;
+    line-height: 10px;
+    margin: 0px;
+    font-weight: 500;
+    margin-left: 4px;
+}
+
+.histogram-two-name-container {
+    position: absolute;
+    left: 0px;
+    top: 40px;
+    display: flex;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    visibility: hidden;
 }

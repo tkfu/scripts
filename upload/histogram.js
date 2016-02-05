@@ -1,3 +1,5 @@
+var percentFormat = d3.format(".0%");
+
 function generateMovieData (callback) {
 
   var data = [];
@@ -193,15 +195,77 @@ function drawHistogram(){
       .attr("class","histogram-two-marker")
       ;
 
-    var previewName = d3.select(".histogram-two-data")
+    var previewNameContainer = d3.select(".histogram-two-data")
       .append("div")
+      .attr("class","histogram-two-name-container tk-futura-pt")
+      ;
+
+    var previewName = previewNameContainer.append("div")
       .attr("class","histogram-two-name tk-futura-pt")
       .text("hello")
       ;
 
+    var previewDataBarScale = d3.scale.linear().domain([0,1]).range([0,50])
+
+    var previewData = previewNameContainer
+      .append("div")
+      .attr("class","histogram-two-data-preview tk-futura-pt")
+      .selectAll("div")
+      .data([0.5,0.6],function(d){
+        return d;
+      })
+      .enter()
+      .append("div")
+      .attr("class","histogram-two-data-preview-row")
+      ;
+
+    var previewDataLabel = previewData.append("p")
+      .attr("class","histogram-two-data-preview-label tk-futura-pt")
+      .text(function(d,i){
+        if(i==0){
+          return "female lines";
+        }
+        return "male lines";
+      });
+
+    var previewDataBar = previewData.append("div")
+      .attr("class","histogram-two-data-preview-bar")
+      .style("width",function(d){
+        return previewDataBarScale(d) + "px";
+      })
+      .style("background-color",function(d,i){
+        if (i==0){
+          return "#ff1b84"
+        }
+        return "#0091E6";
+      });
+
+    var previewDataPercent = previewData.append("p")
+      .attr("class","histogram-two-data-preview-percent tk-futura-pt")
+      .text(function(d,i){
+        return percentFormat(d);
+      });
+
     histogramChartData
       .on("mouseover",function(d){
         previewName.text(d.title).style("color",colorScale(d.female_percent));
+
+        previewData
+          .data([d.female_percent,1-d.female_percent])
+          .enter();
+
+        previewData.select(".histogram-two-data-preview-percent")
+          .text(function(d,i){
+            return percentFormat(d);
+          });
+
+        previewData.select(".histogram-two-data-preview-bar")
+          .transition()
+          .duration(200)
+          .style("width",function(d){
+            return previewDataBarScale(d) + "px";
+          });
+
       })
 
     d3.select(".histogram-two-data")
@@ -209,17 +273,31 @@ function drawHistogram(){
         var coordinates = d3.mouse(this);
         console.log(coordinates[0]);
         marker.style("left",coordinates[0]-3+"px");
-        previewName.style("left",coordinates[0]-3+"px");
+        previewNameContainer.style("left",coordinates[0]-3+"px");
       })
       .on("mouseover",function(d){
         marker.style("display","block");
         d3.selectAll(".axis-count").style("visibility","hidden")
-        previewName.style("display","block");
+        previewNameContainer.style("visibility","visible");
       })
       .on("mouseout",function(d){
         marker.style("display",null);
         d3.selectAll(".axis-count").style("visibility","visible")
-        previewName.style("display",null);
+        previewNameContainer.style("visibility",null);
+      })
+      .on("click",function(d){
+
+        scriptLines
+          .transition()
+          .duration(500)
+          .style("left",valuesLines.length*2+"px")
+
+
+        // scriptLines.transition().duration(500)
+        //   .style("left",function(d,i){
+        //     return d.index*2 + "px";
+        //   })
+        //   ;
       })
       ;
 
@@ -239,8 +317,6 @@ function drawHistogram(){
         if (o1 > o2) return 1;
         return 0;
       })
-
-      console.log(valuesLines);
 
       var scriptLines = d3.select(".histogram-two").append("div").style("width","100%").append("div")
         .attr("class","histogram-two-script-data")
@@ -263,10 +339,6 @@ function drawHistogram(){
           return "18px";
         })
         .on("click",function(d){
-          scriptLines.transition().duration(500)
-          .style("left",function(d,i){
-            return d.index*2 + "px";
-          })
         })
         ;
 
