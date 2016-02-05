@@ -188,12 +188,12 @@ function drawHistogram(){
       .html(d3.selectAll(".bucket-e").size() - 1)
       ;
 
-    var marker = d3.select(".histogram-two")
+    var marker = d3.select(".histogram-two-data")
       .append("div")
       .attr("class","histogram-two-marker")
       ;
 
-    var previewName = d3.select(".histogram-two")
+    var previewName = d3.select(".histogram-two-data")
       .append("div")
       .attr("class","histogram-two-name tk-futura-pt")
       .text("hello")
@@ -204,9 +204,10 @@ function drawHistogram(){
         previewName.text(d.title).style("color",colorScale(d.female_percent));
       })
 
-    d3.select(".histogram-two")
+    d3.select(".histogram-two-data")
       .on("mousemove",function(d){
         var coordinates = d3.mouse(this);
+        console.log(coordinates[0]);
         marker.style("left",coordinates[0]-3+"px");
         previewName.style("left",coordinates[0]-3+"px");
       })
@@ -222,25 +223,72 @@ function drawHistogram(){
       })
       ;
 
+      console.log(movie_lines);
+
+      var valuesLines = []
+      var thisMovieLines = movie_lines["m555"];
+
+      thisMovieLines.female_lines.forEach((x) => { valuesLines.push({gender: "f", index: x}) });
+      thisMovieLines.male_lines.forEach((x) => { valuesLines.push({gender: "m", index: x}) });
+
+      valuesLines = valuesLines.sort(function(a, b){
+        var o1 = a.index;
+        var o2 = b.index;
+
+        if (o1 < o2) return -1;
+        if (o1 > o2) return 1;
+        return 0;
+      })
+
+      console.log(valuesLines);
+
+      var scriptLines = d3.select(".histogram-two").append("div").style("width","100%").append("div")
+        .attr("class","histogram-two-script-data")
+        .style("width",valuesLines.length*2 + "px")
+        .selectAll("div")
+        .data(valuesLines)
+        .enter()
+        .append("div")
+        .attr("class","line")
+        .style("background",function(d){
+          if(d.gender == "f"){
+            return "#FF1B84";
+          }
+          return "#0091E6";
+        })
+        .style("margin-top",function(d){
+          if(d.gender == "f"){
+            return "0px";
+          }
+          return "18px";
+        })
+        .on("click",function(d){
+          scriptLines.transition().duration(500)
+          .style("left",function(d,i){
+            return d.index*2 + "px";
+          })
+        })
+        ;
+
+        scriptLines.filter(function(d){
+          return d.gender == "f"
+        })
+        .style("left",function(d,i){
+          return i*2 + "px";
+        })
+        ;
+
+        scriptLines.filter(function(d){
+          return d.gender == "m"
+        })
+        .style("left",function(d,i){
+          return i*2 + "px";
+        })
+        ;
 
 
-    //   .sort(function(a, b){
-    //     var o1 = a.female_percent;
-    //     var o2 = b.female_percent;
-    //
-    //     if (o1 < o2) return -1;
-    //     if (o1 > o2) return 1;
-    //     return 0;
-    //     // return d3.ascending(a.pass, b.pass);
-    //   })
-    //
-    //   .style("background-color",function(d){
-    //     return colorScale(d.female_percent);
-    //   })
-    //   .on("mouseover",function(d){
-    //     console.log(d);
-    //   })
-    //   ;
+
+        ;
 
     // var bucketLengths = [];
     // var bucketLengthsCumulative = [];

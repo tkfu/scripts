@@ -1,8 +1,9 @@
 .line {
     height: 15px;
-    width: 1px;
+    width: 2px;
     position: absolute;
     background: black;
+    left: 0px;
 }
 
 .movie {
@@ -41,7 +42,7 @@ g.axis path, g.axis line {
     margin-bottom: 8px;
 }
 
-.histogram-two {display: flex;display:-webkit-box;     display:-ms-flexbox;display:-webkit-flex;flex-wrap: wrap;position: relative;width: auto;}
+.histogram-two {display: flex;display:-webkit-box;     display:-ms-flexbox;display:-webkit-flex;flex-wrap: wrap;position: relative;width: auto;align-items:;}
 
 div .bucket-one:last-of-type{
   height:100px;
@@ -89,6 +90,9 @@ div .bucket-one:last-of-type{
     flex-wrap: wrap;
     margin: 0 auto;
     height: 30px;
+    /* margin-right: 150px; */
+    /* margin-left: 150px; */
+    position: relative;
 }
 
 .histogram-two-marker {
@@ -96,7 +100,7 @@ div .bucket-one:last-of-type{
     width: 1px;
     height: 30px;
     border: 2px solid #020202;
-    bottom: -2px;
+    top: -2px;
     left: 0px;
     display: none;
     pointer-events: none;
@@ -107,7 +111,7 @@ div .bucket-one:last-of-type{
     position: absolute;
     width: 91px;
     height: 30px;
-    bottom: -38px;
+    top: 35px;
     left: 0px;
     pointer-events: none;
     color: black;
@@ -123,4 +127,20 @@ div .bucket-one:last-of-type{
     text-align: center;
     margin-bottom: 70px;
     font-size: 24px;
+}
+
+.histogram-two-script-data {
+    position: relative;
+    /* top: 0px; */
+    /* left: 0px; */
+    display: flex;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    height: 30px;
+    width: 100%;
+    justify-content: center;
+    margin-top: 80px;
 }
