@@ -1146,21 +1146,6 @@
 633,"shtetl wife",130,"f",NULL
 633,"sy ableman",370,"m",53
 633,"uncle arthur",357,"m",53
-635,"capt. jack ross",1490,"m",34
-635,"capt. west",166,"m",42
-635,"capt. whitaker",222,"m",37
-635,"Col. Nathan R. ",1987,"m",55
-635,"dr. stone",178,"m",44
-635,"howard",310,"m",NULL
-635,"judge julius al",444,"m",60
-635,"lance cpl. haro",221,"m",26
-635,"lt. col. matthe",414,"m",49
-635,"lt. daniel kaff",3269,"m",30
-635,"lt. dave spradl",117,"m",36
-635,"lt. jonathan ke",363,"m",26
-635,"lt. sam weinber",1007,"m",35
-635,"pfc. louden dow",298,"m",25
-635,"robert c. mcgui",114,"m",NULL
 640,"buckaroo banzai",1723,"m",37
 640,"general catburd",334,"m",54
 640,"highway patrolm",126,"m",36
@@ -1325,6 +1310,15 @@
 678,"raoul berman",394,"m",38
 678,"richard chapin",450,"m",50
 678,"rigazzi gunman",184,"m",NULL
+682,"allison",141,"f",25
+682,"alvy singer",7661,"m",42
+682,"annie hall",3719,"f",31
+682,"doctor",135,"m",56
+682,"man in theatre ",267,"m",36
+682,"mom hall",110,"f",53
+682,"rob",567,"m",38
+682,"robin",172,"f",34
+682,"tony lacey",364,"m",36
 697,"admiral crawfor",193,"m",57
 697,"agnieska",263,"f",41
 697,"amos",1799,"m",54
@@ -2558,6 +2552,13 @@
 1061,"judy",2328,"f",22
 1061,"prostitute",133,"f",33
 1061,"uncle rodney",436,"m",56
+1062,"amanda kirby",663,"f",35
+1062,"billy brennan",480,"m",29
+1062,"dr. alan grant",1347,"m",54
+1062,"dr. ellie sattl",161,"f",34
+1062,"eric kirby",264,"m",15
+1062,"mr. udesky",169,"m",49
+1062,"paul kirby",1047,"m",51
 1071,"bert thomas",260,"m",72
 1071,"cathy long",444,"f",35
 1071,"jerry langford",779,"m",56
@@ -4122,6 +4123,26 @@
 1537,"mrs. christian",1628,"f",70
 1537,"nun",290,"f",NULL
 1537,"tom welles",9936,"m",35
+1538,"capt. jack ross",4560,"m",34
+1538,"capt. west",430,"m",42
+1538,"capt. whitaker",464,"m",37
+1538,"cdr. gibbs",138,"m",28
+1538,"Col. Nathan R. ",4384,"m",55
+1538,"cpl. carl hamma",236,"m",24
+1538,"dr. stone",480,"m",44
+1538,"howard",800,"m",NULL
+1538,"judge julius al",1120,"m",60
+1538,"lance cpl. haro",1170,"m",26
+1538,"lt. cdr. joanne",5854,"f",30
+1538,"lt. col. matthe",1034,"m",49
+1538,"lt. daniel kaff",16148,"m",30
+1538,"lt. dave spradl",306,"m",36
+1538,"lt. jonathan ke",944,"m",26
+1538,"lt. sam weinber",2590,"m",35
+1538,"luther",112,"m",64
+1538,"pfc. louden dow",776,"m",25
+1538,"pfc. william t.",494,"m",33
+1538,"robert c. mcgui",298,"m",NULL
 1545,"bill burton",648,"m",56
 1545,"gloria russell",984,"f",42
 1545,"kate whitney",1524,"f",33
@@ -4521,19 +4542,6 @@
 1659,"princess myagka",123,"f",31
 1659,"theodore",195,"m",52
 1659,"vronsky",1521,"m",22
-1661,"actor boy frien",198,"m",33
-1661,"actress in rehe",132,"f",NULL
-1661,"allison",394,"f",25
-1661,"alvy singer",20960,"m",42
-1661,"comic",160,"m",57
-1661,"dad hall",128,"m",52
-1661,"doctor",312,"m",56
-1661,"duane hall",204,"m",34
-1661,"mom hall",298,"f",53
-1661,"rob",1402,"m",38
-1661,"robin",464,"f",34
-1661,"school teacher",148,"f",NULL
-1661,"tony lacey",886,"m",36
 1666,"astrid",113,"f",42
 1666,"cal gold",448,"m",54
 1666,"clair forsyth",736,"f",36
@@ -5040,7 +5048,7 @@
 1809,"thomas",496,"m",53
 1810,"carol",334,"f",NULL
 1810,"douglas ainslie",1924,"m",62
-1810,"evelyn",3037,"m",NULL
+1810,"evelyn",3037,"f",77
 1810,"graham",1654,"m",NULL
 1810,"jean",1636,"m",NULL
 1810,"judge",131,"m",NULL
@@ -8373,14 +8381,6 @@
 2690,"ray arnold",719,"m",45
 2690,"robert muldoon",493,"m",48
 2690,"tim murphy",745,"m",10
-2692,"ben hildebrand",146,"m",50
-2692,"billy brennan",1148,"m",29
-2692,"cooper",124,"m",51
-2692,"dr. alan grant",3096,"m",54
-2692,"dr. ellie sattl",380,"f",34
-2692,"eric kirby",622,"m",15
-2692,"mr. udesky",356,"m",49
-2692,"paul kirby",2506,"m",51
 2697,"adele corners",1389,"f",20
 2697,"brian kessler",1941,"m",33
 2697,"carol",103,"f",NULL
@@ -13583,14 +13583,6 @@
 4454,"patty bernstein",284,"f",29
 4454,"stan fox",245,"m",57
 4454,"taj",138,"m",45
-4456,"chief of the wa",595,"m",69
-4456,"dede",230,"f",29
-4456,"dr. ellison",301,"m",71
-4456,"graynamore",1269,"m",77
-4456,"joe",3777,"m",34
-4456,"luggage salesma",151,"m",42
-4456,"marshall",728,"m",73
-4456,"mr. waturi",550,"m",50
 4459,"adleman lusk",157,"m",32
 4459,"boy",197,"m",NULL
 4459,"burke",268,"m",33
@@ -14974,6 +14966,12 @@
 5101,"rosa lee",1765,"f",33
 5101,"sonny",687,"m",NULL
 5101,"sue anne",766,"f",29
+5104,"dr. silberman",348,"m",46
+5104,"enrique salceda",112,"m",46
+5104,"john connor",1530,"m",14
+5104,"miles dyson",526,"m",44
+5104,"sarah connor",1331,"f",35
+5104,"the terminator",861,"m",44
 5106,"aurora greenway",2431,"f",49
 5106,"dr. maise",172,"m",NULL
 5106,"emma horton",2586,"f",28
@@ -16434,16 +16432,6 @@
 5954,"marion ravenwoo",162,"f",30
 5954,"sallah",2035,"m",37
 5954,"satipo",237,"m",28
-5992,"cigar biker",125,"m",39
-5992,"cop",243,"m",NULL
-5992,"dr. silberman",802,"m",46
-5992,"infant john con",208,"m",2
-5992,"john connor",1184,"m",14
-5992,"miles dyson",275,"m",44
-5992,"sarah connor",550,"f",35
-5992,"t-1000",5618,"m",33
-5992,"the terminator",284,"m",44
-5992,"twin sarah",457,"f",35
 6000,"abel sunday",286,"m",NULL
 6000,"al rose",175,"m",NULL
 6000,"bandy",224,"m",64
@@ -19092,17 +19080,6 @@
 7508,"singing dad",240,"m",NULL
 7508,"steve",1379,"m",17
 7508,"steve's mom",177,"m",NULL
-7512,"count adhemar",859,"m",34
-7512,"father",278,"m",NULL
-7512,"geoffrey chauce",1952,"m",30
-7512,"germaine",202,"m",33
-7512,"kate",166,"f",25
-7512,"lone boy",104,"m",NULL
-7512,"man in stocks",108,"m",55
-7512,"roland",1216,"m",37
-7512,"the black princ",220,"m",NULL
-7512,"wat",794,"m",30
-7512,"william thatche",3207,"m",22
 7516,"billy nolan",448,"m",NULL
 7516,"carrie white",1143,"f",16
 7516,"chris hargensen",473,"f",25
@@ -20439,14 +20416,6 @@
 8063,"tina trac",818,"f",NULL
 8063,"vinh kelly",429,"m",19
 8063,"yabbo",652,"m",21
-8070,"agent bilkins",684,"m",NULL
-8070,"agent markham",103,"m",50
-8070,"brian o'conner",1289,"m",30
-8070,"carter verone",877,"m",28
-8070,"clemente",464,"m",NULL
-8070,"detective whitw",222,"m",48
-8070,"edwin",758,"m",NULL
-8070,"roman pearce",1027,"m",25
 8073,"bob",7031,"m",25
 8073,"david",326,"m",21
 8073,"dianne",1817,"f",30
@@ -21686,7 +21655,7 @@
 8760,"jeff taylor",1958,"m",46
 8760,"red barr",941,"m",54
 8760,"sheriff boyd",322,"m",41
-8765,"alma",105,"f",25
+8765,"alma",223,"f",25
 8765,"cassie",188,"f",30
 8765,"ennis del mar",1396,"m",26
 8765,"jack twist",1449,"m",25
